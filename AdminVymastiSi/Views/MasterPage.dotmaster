@@ -1,0 +1,67 @@
+﻿@viewModel AdminVymastiSi.ViewModels.MasterPageViewModel, AdminVymastiSi
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdminVymastiSi</title>
+    <dot:RequiredResource Name="bootstrap" />
+    <script src="../Scripts/jquery-3.0.0.min.js"></script>
+    <link href="../Content/styles.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <meta name="theme-color" content="#000" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark header-dark">
+            <a class="navbar-brand" href="#">Administrace</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <dot:RouteLink RouteName="Spider" class="nav-link" ID="spider-page">Přidání videí<i style="margin-left: 7px; color:white;" class="fas fa-plus"></i></dot:RouteLink>
+                    </li>
+                    <li class="nav-item">
+                        <dot:RouteLink RouteName="Database" class="nav-link" ID="database-page">Správa videií<i style="color:white; margin-left:7px;" class="fas fa-database"></i></dot:RouteLink>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://vymasti.si/">Vymasti.si<i style="color:white; margin-left:7px;" class="fas fa-home"></i></a>
+                    </li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0">
+                    <dot:Button class="btn btn-danger" Text="Odhlásit se" ButtonTagName="button" />
+                </form>
+            </div>
+        </nav>
+    </header>
+    <dot:UpdateProgress ID="loader-main">
+        <div style="position:fixed; background-color:black; z-index:500; width:100%; top:50px; height:100%;">
+        </div>
+        <div class="sk-circle" style="z-index:501;">
+            <div class="sk-circle1 sk-child"></div>
+            <div class="sk-circle2 sk-child"></div>
+            <div class="sk-circle3 sk-child"></div>
+            <div class="sk-circle4 sk-child"></div>
+            <div class="sk-circle5 sk-child"></div>
+            <div class="sk-circle6 sk-child"></div>
+            <div class="sk-circle7 sk-child"></div>
+            <div class="sk-circle8 sk-child"></div>
+            <div class="sk-circle9 sk-child"></div>
+            <div class="sk-circle10 sk-child"></div>
+            <div class="sk-circle11 sk-child"></div>
+            <div class="sk-circle12 sk-child"></div>
+        </div>
+    </dot:UpdateProgress>
+    <dot:SpaContentPlaceHolder ID="MainContent" />
+    <script src="../Scripts/scripts.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
+    <footer>
+        2018 © vymasti.si
+    </footer>
+
+</body>
+</html>
