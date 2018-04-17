@@ -2,7 +2,11 @@
 using AdminVymastiSi.DTO;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace AdminVymastiSi.Repositories
@@ -25,7 +29,7 @@ namespace AdminVymastiSi.Repositories
             using (var db = new myDb())
             {
                 int check = db.Categories
-                    .Where(x => x.Name == cat.Name || x.Name_en == cat.Name_en).Count();
+                    .Where(x => x.Name == cat.Name && x.Name_en == cat.Name_en).Count();
                 if (check > 0)
                 {
                     return true;
@@ -53,6 +57,32 @@ namespace AdminVymastiSi.Repositories
                 return true;
             else
                 return false;
+        }
+        public async Task<bool> UserExist(string username, string password)
+        {
+            using (var db = new myDb())
+            {
+                string shaPassword = sha256(password);
+                var user = await db.Users
+                    .Where(x => x.Username == username && x.Password == shaPassword)
+                    .FirstOrDefaultAsync();
+                if (user != null)
+                    return true;
+                else
+                    return false;
+            }
+        }
+
+        private string sha256(string randomString)
+        {
+            var crypt = new SHA256Managed();
+            var hash = new System.Text.StringBuilder();
+            byte[] crypto = crypt.ComputeHash(Encoding.UTF8.GetBytes(randomString));
+            foreach (byte theByte in crypto)
+            {
+                hash.Append(theByte.ToString("x2"));
+            }
+            return hash.ToString();
         }
     }
 }

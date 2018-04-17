@@ -1,15 +1,17 @@
-﻿function playVideo(e) {
-    if (window.innerWidth > 768) {
-        e.load();
-        e.play();
-    }
-}
+﻿//function playVideo(e) {
+//    if (window.innerWidth > 768) {
+//        e.load();
+//        e.play();
+//    }
+//}
 
-function stopVideo(e) {
-    if(window.innerWidth > 768) {
-        e.load();
-    }
-}
+//function stopVideo(e) {
+//    if(window.innerWidth > 768) {
+//        e.load();
+//    }
+//}
+
+
 
 $(document).ready(function () {
     $(document).on("click", ".video", function (e) {
@@ -18,6 +20,7 @@ $(document).ready(function () {
             keyboard: false
         })
     });
+
 
     $(document).on("click", ".source-selector", function (e) {
         $('#source-selection').collapse("toggle")
@@ -34,25 +37,28 @@ $(document).ready(function () {
 
     });
 
-   
-    $(".video").click(function (e) {
-        $('#myModal').modal({
-            backdrop: 'static',
-            keyboard: false
-        })
-    });
 
-    $("#spider-page").click(function (e) {
+    $(document).on("click", "#spider-page", function (e) {
         $('#navbarSupportedContent').collapse("hide");
         $("#spider-page").css("font-weight", "bold");
         $("#database-page").css("font-weight", "normal");
+        $("#category-page").css("font-weight", "normal");
     });
 
-    $("#database-page").click(function (e) {
+    $(document).on("click", "#database-page", function (e) {
         $('#navbarSupportedContent').collapse("hide");
         $("#database-page").css("font-weight", "bold");
         $("#spider-page").css("font-weight", "normal");
+        $("#category-page").css("font-weight", "normal");
     });
+
+    $(document).on("click", "#category-page", function (e) {
+        $('#navbarSupportedContent').collapse("hide");
+        $("#database-page").css("font-weight", "normal");
+        $("#spider-page").css("font-weight", "normal");
+        $("#category-page").css("font-weight", "bold");
+    });
+
 
     $(document).on("click", ".close-modal", function (e) {
 
@@ -60,21 +66,21 @@ $(document).ready(function () {
 
     });
 
-
-    $(".websites-collapse").click(function (e) {
+    $(document).on("click", ".website-collapse", function (e) {
         $('#collapse1').collapse("hide");
     });
 
-    $(".move-up-modal").click(function (e) {
+    $(document).on("click", ".move-up-modal", function (e) {
         $("#myModal").scrollTop(100);
     });
 
-    $(".open-modal").click(function (e) {
+    $(document).on("click", ".open-modal", function (e) {
         $('#myModal').modal({
             backdrop: 'static',
             keyboard: false
         })
     });
+
 
     var didScroll;
     var lastScrollTop = 0;

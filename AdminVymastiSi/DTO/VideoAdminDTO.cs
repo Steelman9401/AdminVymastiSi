@@ -22,6 +22,7 @@ namespace AdminVymastiSi.DTO
         public CategoryDTO NewCategory { get; set; } = new CategoryDTO();
         public string Url { get; set; }
         public bool IsCustom { get; set; }
+        public bool IsEdited { get; set; }
         public string Duration { get; set; }
         public bool HD { get; set; }
         public string Description { get; set; }
@@ -51,18 +52,18 @@ namespace AdminVymastiSi.DTO
             newCat.Remove(cat);
             Categories = newCat;
         }
-        public async Task AddVideo()
+        public async Task AddVideo(string username)
         {
             AdminRepository AdminRep = new AdminRepository();
-            await AdminRep.AddPorn(this);
+            await AdminRep.AddPorn(this, username);
             Success = true;
         }
-        public async Task<bool> AddCategoryToDatabase()
+        public async Task<bool> AddCategoryToDatabase(string username)
         {
             if (ValidateCategory())
             {
                 AdminRepository AdminRep = new AdminRepository();
-                await AdminRep.AddCategory(NewCategory);
+                await AdminRep.AddCategory(NewCategory, username);
                 CategoryAdded = true;
                 ErrorMessage = "";
                 return true;
@@ -80,6 +81,7 @@ namespace AdminVymastiSi.DTO
         {
             AdminRepository AdminRep = new AdminRepository();
             await AdminRep.UpdateVideo(this);
+            Success = true;
         }
 
         public static class LinqExtras // Or whatever
@@ -88,6 +90,10 @@ namespace AdminVymastiSi.DTO
             {
                 return !b.Except(a).Any();
             }
+        }
+        private IEnumerable<string> CheckCategories()
+        {
+             return Categories.Where(p => !DatabaseCategories.Any(p2 => p2 == p)).ToList();
         }
         private bool ValidateCategory()
         {
@@ -132,13 +138,23 @@ namespace AdminVymastiSi.DTO
                 Success = false;
                 errormsg.Add(new ValidationResult("Kategorie se nesmí jmenovat stejně.", new[] { nameof(Categories) }));
             }
-
-            if (!LinqExtras.ContainsAllItems(DatabaseCategories, Categories))
+            var difference = CheckCategories();
+            if (difference.Count()!=0)
             {
                 Success = false;
-                errormsg.Add(new ValidationResult("Kategorie není v databázi.", new[] { nameof(Categories) }));
+                string text = "";
+                if(difference.Count()>1)
+                {
+                    text = " nejsou v databázi.";
+                }
+                else
+                {
+                    text = " není v databázi.";
+                }
+                string categories = string.Join(", ", difference);
+                errormsg.Add(new ValidationResult("Kategorie " + categories + text, new[] { nameof(Categories) }));
             }
-            if (AdminRep.VideoExists(Url))
+            if (!IsEdited && AdminRep.VideoExists(Url))
             {
                 Success = false;
                 errormsg.Add(new ValidationResult("Video již existuje.", new[] { nameof(Categories) }));

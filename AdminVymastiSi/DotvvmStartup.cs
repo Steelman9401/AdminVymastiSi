@@ -16,9 +16,10 @@ namespace AdminVymastiSi
 
         private void ConfigureRoutes(DotvvmConfiguration config, string applicationPath)
         {
-            config.RouteTable.Add("Default", "login", "Views/default.dothtml");
-            config.RouteTable.Add("Spider", "", "Views/administration/spider.dothtml");
+            config.RouteTable.Add("Default", "", "Views/default.dothtml");
+            config.RouteTable.Add("Spider", "spider", "Views/administration/spider.dothtml");
             config.RouteTable.Add("Database", "database", "Views/administration/database.dothtml");
+            config.RouteTable.Add("Categories", "categories", "Views/administration/categories.dothtml");
             config.RouteTable.AutoDiscoverRoutes(new DefaultRouteStrategy(config));       
         }
 

@@ -20,12 +20,22 @@ namespace AdminVymastiSi.ViewModels.administration
         public VideoAdminDTO Video { get; set; }
         public override Task PreRender()
         {
-            Videos.OnLoadingDataAsync = option => AdminRep.GetAllVideosAdmin(option);
+            Videos.OnLoadingDataAsync = option => AdminRep.GetAllVideosAdmin(option,CurrentUser);
             return base.PreRender();
         }
         public async Task EditVideo(VideoListAdminDTO vid)
         {
             Video = await AdminRep.GetVideoById(vid.Id);
+            Video.DatabaseCategories = await AdminRep.GetCategories();
+            Video.IsEdited = true;
+        }
+        public async Task UpdateVideo()
+        {
+            await Video.UpdateVideo();
+            var editedVideo = Videos.Items
+                 .Where(x => x.Id == Video.Id)
+                 .First();
+            editedVideo.Title = Video.Title; 
         }
         public void CloseModal()
         {
@@ -33,7 +43,7 @@ namespace AdminVymastiSi.ViewModels.administration
         }
         public async Task AddCategory()
         {
-            if (await Video.AddCategoryToDatabase())
+            if (await Video.AddCategoryToDatabase(CurrentUser))
             {
                 Video.NewCategory.Name = "";
                 Video.NewCategory.Name_en = "";

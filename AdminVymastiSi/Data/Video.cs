@@ -15,6 +15,7 @@ namespace AdminVymastiSi.Data
         public int Views { get; set; }
         public string Duration { get; set; }
         public bool HD { get; set; }
+        public virtual User User { get; set; }
         public DateTime Date { get; set; } = DateTime.Now;
         public string Img { get; set; }
         public string Preview { get; set; }

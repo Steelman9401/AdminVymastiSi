@@ -8,12 +8,13 @@ using AdminVymastiSi.DTO;
 using AdminVymastiSi.Repositories;
 using AdminVymastiSi.SupportClasses;
 using DotVVM.Framework.Controls;
+using DotVVM.Framework.Runtime.Filters;
 using DotVVM.Framework.Storage;
 using DotVVM.Framework.ViewModel;
 using HtmlAgilityPack;
 
 namespace AdminVymastiSi.ViewModels.administration
-{
+{   
     public class SpiderViewModel : MasterPageViewModel
     {
         public List<VideoListAdminDTO> Videos { get; set; } = new List<VideoListAdminDTO>();
@@ -91,12 +92,12 @@ namespace AdminVymastiSi.ViewModels.administration
         }
         public async Task AddVideo()
         {
-            await Video.AddVideo();
+            await Video.AddVideo(CurrentUser);
             Videos.RemoveAll(x => x.Id == Video.Id);
         }
         public async Task AddCategory()
         {
-            if (await Video.AddCategoryToDatabase())
+            if (await Video.AddCategoryToDatabase(CurrentUser))
             {
                 Video.NewCategory.Name = "";
                 Video.NewCategory.Name_en = "";

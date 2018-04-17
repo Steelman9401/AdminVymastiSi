@@ -16,11 +16,13 @@ namespace AdminVymastiSi.Repositories
 {
     public class AdminRepository:ValidationService
     {
-        public async Task<GridViewDataSetLoadedData<VideoListAdminDTO>> GetAllVideosAdmin(IGridViewDataSetLoadOptions gridViewDataSetLoadOptions)
+        public async Task<GridViewDataSetLoadedData<VideoListAdminDTO>> GetAllVideosAdmin(IGridViewDataSetLoadOptions gridViewDataSetLoadOptions, string username)
         {
             using (var db = new myDb())
             {
-                var query = db.Videos.Select(x => new VideoListAdminDTO
+                var query = db.Videos
+                    .Where(p=>p.User.Username==username)
+                    .Select(x => new VideoListAdminDTO
                 {
                     Id = x.Id,
                     Img = "/Previews/" + x.Img,
@@ -31,7 +33,32 @@ namespace AdminVymastiSi.Repositories
                 return query.GetDataFromQueryable(gridViewDataSetLoadOptions);
             }
         }
-        public async Task<VideoAdminDTO> GetVideoById(int Id)
+        public GridViewDataSetLoadedData<CategoryDTO> GetAllCategories(IGridViewDataSetLoadOptions gridViewDataSetLoadOptions, string username)
+        {
+            using (var db = new myDb())
+            {
+                var query = db.Categories
+                    .Where(x => x.User.Username == username)
+                    .Select(p => new CategoryDTO()
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                        Name_en = p.Name_en
+                    }).OrderByDescending(a => a.Id).AsQueryable();
+                return query.GetDataFromQueryable(gridViewDataSetLoadOptions);
+            }
+        }
+        public async Task UpdateCategory(CategoryDTO category)
+        {
+            using (var db = new myDb())
+            {
+                var dbCat = await db.Categories.FindAsync(category.Id);
+                dbCat.Name = category.Name;
+                dbCat.Name_en = category.Name_en;
+                await db.SaveChangesAsync();
+            }
+        }
+            public async Task<VideoAdminDTO> GetVideoById(int Id)
         {
             using (var db = new myDb())
             {
@@ -44,13 +71,14 @@ namespace AdminVymastiSi.Repositories
                         Img = p.Img,
                         Preview = p.Preview,
                         Title = p.Title,
+                        Title_en = p.Title_en,
                         Url = p.Url,
                         Categories = p.Categories
                        .Select(a => a.Name)
                     }).FirstOrDefaultAsync();
             }
         }
-        public async Task AddPorn(VideoAdminDTO vid)
+        public async Task AddPorn(VideoAdminDTO vid, string username)
         {
             var downloadPath = GetDownloadPath();
             var previewfileName = GetVideoFileName(vid.Preview);
@@ -87,6 +115,8 @@ namespace AdminVymastiSi.Repositories
             }
             using (var db = new myDb())
             {
+                var user = db.Users.Where(x => x.Username == username).First();
+                video.User = user;
                 foreach (Category item in listCat)
                 {
                     Category tag = await db.Categories
@@ -120,16 +150,7 @@ namespace AdminVymastiSi.Repositories
                 foreach (string item in video.Categories)
                 {
                     var category = await db.Categories.Where(x => x.Name == item).FirstOrDefaultAsync();
-                    if (category != null)
-                    {
-                        dbVideo.Categories.Add(category);
-                    }
-                    else
-                    {
-                        Category dbCat = new Category();
-                        dbCat.Name = item;
-                        dbVideo.Categories.Add(dbCat);
-                    }
+                    dbVideo.Categories.Add(category);
                 }
                 await db.SaveChangesAsync();
             }
@@ -144,13 +165,17 @@ namespace AdminVymastiSi.Repositories
                 await db.SaveChangesAsync();
             }
         }
-        public async Task AddCategory(CategoryDTO category)
+        public async Task AddCategory(CategoryDTO category, string username)
         {
             using (var db = new myDb())
             {
+                var user = db.Users
+                    .Where(x => x.Username == username)
+                    .First();
                 Category dbCat = new Category();
                 dbCat.Name = category.Name;
                 dbCat.Name_en = category.Name_en;
+                dbCat.User = user;
                 db.Categories.Add(dbCat);
                 await db.SaveChangesAsync();
             }

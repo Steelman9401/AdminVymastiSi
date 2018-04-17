@@ -138,14 +138,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AdminRepository.cs" />
     <Compile Include="Repositories\SpiderRepository.cs" />
+    <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Repositories\ValidationService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="DotvvmStartup.cs" />
     <Compile Include="SupportClasses\WebCategory.cs" />
+    <Compile Include="ViewModels\administration\CategoriesViewModel.cs" />
     <Compile Include="ViewModels\administration\DatabaseViewModel.cs" />
     <Compile Include="ViewModels\administration\SpiderViewModel.cs" />
     <Compile Include="ViewModels\DefaultViewModel.cs" />
     <Compile Include="ViewModels\MasterPageViewModel.cs" />
+    <Compile Include="ViewModels\Page1ViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-grid.css" />
@@ -161,7 +164,9 @@
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
+    <Content Include="Content\datalist.css" />
     <Content Include="Content\drtuber.png" />
+    <Content Include="Content\login.css" />
     <Content Include="Content\redtube.png" />
     <Content Include="Content\styles.css" />
     <Content Include="Content\xhamster.png" />
@@ -170,6 +175,7 @@
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\datalist.polyfill.min.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
@@ -187,6 +193,7 @@
     <Content Include="Scripts\jquery-3.0.0.min.js" />
     <Content Include="Scripts\jquery-3.0.0.slim.js" />
     <Content Include="Scripts\jquery-3.0.0.slim.min.js" />
+    <Content Include="Scripts\login.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
@@ -215,6 +222,8 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\administration\spider.dothtml" />
     <Content Include="Views\administration\database.dothtml" />
+    <Content Include="Views\page1.dothtml" />
+    <Content Include="Views\administration\categories.dothtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -249,7 +258,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>0</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:50569/</IISUrl>
+          <IISUrl>http://localhost:50091/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

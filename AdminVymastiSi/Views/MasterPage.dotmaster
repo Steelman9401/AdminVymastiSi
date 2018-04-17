@@ -3,14 +3,15 @@
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <dot:RequiredResource  Name="bootstrap" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AdminVymastiSi</title>
-    <dot:RequiredResource Name="bootstrap" />
     <script src="../Scripts/jquery-3.0.0.min.js"></script>
     <link href="../Content/styles.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <meta name="theme-color" content="#000" />
+    <link href="../Content/datalist.css" rel="stylesheet" />
 </head>
 <body>
     <header>
@@ -25,16 +26,28 @@
                     <li class="nav-item active">
                         <dot:RouteLink RouteName="Spider" class="nav-link" ID="spider-page">Přidání videí<i style="margin-left: 7px; color:white;" class="fas fa-plus"></i></dot:RouteLink>
                     </li>
-                    <li class="nav-item">
-                        <dot:RouteLink RouteName="Database" class="nav-link" ID="database-page">Správa videií<i style="color:white; margin-left:7px;" class="fas fa-database"></i></dot:RouteLink>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="http://vymasti.si/">Vymasti.si<i style="color:white; margin-left:7px;" class="fas fa-home"></i></a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Další
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <dot:RouteLink RouteName="Database" class="dropdown-item" ID="database-page">Správa videií<i class="fas fa-play" style="margin-left:7px;"></i></dot:RouteLink>
+                            <dot:RouteLink RouteName="Categories" class="dropdown-item" ID="category-page">Správa kategorií<i class="fas fa-th-list" style="margin-left:7px;"></i></dot:RouteLink>
+                            <div class="dropdown-divider"></div>
+                            <div class="click">
+                                <dot:Button ButtonTagName="button" Validation.Enabled="false" style="display:none;" Click="{command: SignOut()}" />
+                                <a class="dropdown-item">Odhlasit se<i style="margin-left:7px;" class="fas fa-sign-out-alt"></i></a>
+                            </div>
+                        </div>
                     </li>
                 </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <dot:Button class="btn btn-danger" Text="Odhlásit se" ButtonTagName="button" />
-                </form>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li ID="signOut">
+
+                    </li>
+                </ul>
+
             </div>
         </nav>
     </header>
@@ -59,6 +72,7 @@
     <dot:SpaContentPlaceHolder ID="MainContent" />
     <script src="../Scripts/scripts.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
+    <script src="../Scripts/datalist.polyfill.min.js"></script>
     <footer>
         2018 © vymasti.si
     </footer>
