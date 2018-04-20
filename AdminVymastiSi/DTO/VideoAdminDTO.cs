@@ -27,26 +27,26 @@ namespace AdminVymastiSi.DTO
         public bool HD { get; set; }
         public string Description { get; set; }
         public string Preview { get; set; }
-        public IEnumerable<string> Categories { get; set; } = new List<string>();
+        public IEnumerable<CategoryDTO> Categories { get; set; } = new List<CategoryDTO>();
 
         public void AddCategory()
         {
-            List<string> newCat = new List<string>();
-            string cat = "";
+            List<CategoryDTO> newCat = new List<CategoryDTO>();
+            CategoryDTO cat = new CategoryDTO();
             try
             {
                 newCat = Categories.ToList();
             }
             catch
             {
-                List<string> list = new List<string>();
+                List<CategoryDTO> list = new List<CategoryDTO>();
                 Categories = list;
 
             }
             newCat.Add(cat);
             Categories = newCat;
         }
-        public void RemoveCategory(string cat)
+        public void RemoveCategory(CategoryDTO cat)
         {
             var newCat = Categories.ToList();
             newCat.Remove(cat);
@@ -72,11 +72,6 @@ namespace AdminVymastiSi.DTO
                 CategoryAdded = false;
             return false;
         }
-        public async Task RemoveVideo()
-        {
-            AdminRepository AdminRep = new AdminRepository();
-            await AdminRep.RemoveVideo(this.Id);
-        }
         public async Task UpdateVideo()
         {
             AdminRepository AdminRep = new AdminRepository();
@@ -93,7 +88,7 @@ namespace AdminVymastiSi.DTO
         }
         private IEnumerable<string> CheckCategories()
         {
-             return Categories.Where(p => !DatabaseCategories.Any(p2 => p2 == p)).ToList();
+             return Categories.Where(p => !DatabaseCategories.Any(p2 => p2 == p.Name)).ToList().Select(o=> o.Name);
         }
         private bool ValidateCategory()
         {

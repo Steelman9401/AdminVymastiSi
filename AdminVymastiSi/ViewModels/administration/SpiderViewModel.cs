@@ -66,7 +66,10 @@ namespace AdminVymastiSi.ViewModels.administration
             Video.Title_en = vid.Title_en;
             Video.Url = vid.Url;
             Video.Id = vid.Id;
-            Video.DatabaseCategories = await AdminRep.GetCategories();
+            if (Video.DatabaseCategories.Count() == 0)
+            {
+                Video.DatabaseCategories = await AdminRep.GetCategories();
+            }
             if (SwitchWebsite == 0)
                 SpiderRep.GetCategoriesRedTube(Video);
             else if (SwitchWebsite == 1)
@@ -108,10 +111,11 @@ namespace AdminVymastiSi.ViewModels.administration
         {
             Video = new VideoAdminDTO();
             Video.IsCustom = true;
-            List<string> list = new List<string>();
+            List<CategoryDTO> list = new List<CategoryDTO>();
             for (int i = 0; i < 3; i++)
             {
-                list.Add("");
+                CategoryDTO cat = new CategoryDTO();
+                list.Add(cat);
             }
             Video.Categories = list;
         }
@@ -129,7 +133,15 @@ namespace AdminVymastiSi.ViewModels.administration
         }
         public void CloseModal()
         {
-            Video = new VideoAdminDTO();
+            Video.Categories = new List<CategoryDTO>();
+            Video.CategoryAdded = false;
+            Video.ErrorMessage = "";
+            Video.IsCustom = false;
+            Video.IsEdited = false;
+            Video.NewCategory = new CategoryDTO();
+            Video.ShowCategoryOption = false;
+            Video.Success = false;
+            Video.Url = null;
         }
         public void DoStuff()
         {

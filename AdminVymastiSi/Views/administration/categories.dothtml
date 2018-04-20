@@ -48,7 +48,19 @@
                                     </div>
                                 </EditTemplate>
                             </dot:GridViewTemplateColumn>
-
+                            <dot:GridViewTemplateColumn AllowSorting="false">
+                                <ContentTemplate>
+                                    <div class="btn btn-danger click remove-loader-main">
+                                        Smazat
+                                        <dot:Button style="display:none" ButtonTagName="button" Click="{command: RemoveCategory(_parent.Categories)}">
+                                            <PostBack.Handlers>
+                                                <dot:ConfirmPostBackHandler Message="Opravdu chces smazat tuto kategorii?" />
+                                            </PostBack.Handlers>
+                                        </dot:Button>
+                                </ContentTemplate>
+                                <EditTemplate>
+                                </EditTemplate>
+                            </dot:GridViewTemplateColumn>
                         </Columns>
                     </dot:GridView>
                 </div>

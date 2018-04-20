@@ -14,6 +14,24 @@
     <link href="../Content/datalist.css" rel="stylesheet" />
 </head>
 <body>
+    <dot:UpdateProgress ID="loader-main">
+        <div style="position:fixed; background-color:#0000009e; z-index:500; width:100%; top:0; height:100%;">
+        </div>
+        <div class="sk-circle" style="z-index:501;">
+            <div class="sk-circle1 sk-child"></div>
+            <div class="sk-circle2 sk-child"></div>
+            <div class="sk-circle3 sk-child"></div>
+            <div class="sk-circle4 sk-child"></div>
+            <div class="sk-circle5 sk-child"></div>
+            <div class="sk-circle6 sk-child"></div>
+            <div class="sk-circle7 sk-child"></div>
+            <div class="sk-circle8 sk-child"></div>
+            <div class="sk-circle9 sk-child"></div>
+            <div class="sk-circle10 sk-child"></div>
+            <div class="sk-circle11 sk-child"></div>
+            <div class="sk-circle12 sk-child"></div>
+        </div>
+    </dot:UpdateProgress>
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark header-dark">
             <a class="navbar-brand" href="#">Administrace</a>
@@ -51,24 +69,6 @@
             </div>
         </nav>
     </header>
-    <dot:UpdateProgress ID="loader-main">
-        <div style="position:fixed; background-color:black; z-index:500; width:100%; top:50px; height:100%;">
-        </div>
-        <div class="sk-circle" style="z-index:501;">
-            <div class="sk-circle1 sk-child"></div>
-            <div class="sk-circle2 sk-child"></div>
-            <div class="sk-circle3 sk-child"></div>
-            <div class="sk-circle4 sk-child"></div>
-            <div class="sk-circle5 sk-child"></div>
-            <div class="sk-circle6 sk-child"></div>
-            <div class="sk-circle7 sk-child"></div>
-            <div class="sk-circle8 sk-child"></div>
-            <div class="sk-circle9 sk-child"></div>
-            <div class="sk-circle10 sk-child"></div>
-            <div class="sk-circle11 sk-child"></div>
-            <div class="sk-circle12 sk-child"></div>
-        </div>
-    </dot:UpdateProgress>
     <dot:SpaContentPlaceHolder ID="MainContent" />
     <script src="../Scripts/scripts.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>

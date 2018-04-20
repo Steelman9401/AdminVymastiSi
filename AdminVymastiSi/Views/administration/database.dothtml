@@ -22,12 +22,22 @@
             </div>
             <dot:Repeater DataSource="{value: Videos}" class="row">
                 <ItemTemplate>
-                    <div class="col-lg-3 col-md-4 click remove-loader-main video">
+                    <div class="col-lg-3 col-md-4" style="margin-top:20px;">
+                        <div class="video click remove-loader-main video">
                         <dot:Button ButtonTagName="button" Validation.Enabled="false" Click="{command: _root.EditVideo(_this)}" style="display:none" />
-                        <video poster="{value: Img}" onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0;">
+                        <video poster="{value: Img}" preload="none" onmouseover="playVideo(this)" onmouseout="stopVideo(this)">
                             <source src="{value: Preview}" type="video/mp4">
                         </video>
-                        <p style="font-weight:bold;">{{value: Title}}</p>
+                        <p style="font-weight:bold; margin-bottom:0px;">{{value: Title}}</p>
+                    </div>
+                        <div style="float:right;" class="click btn btn-danger">
+                            Smazat
+                            <dot:Button ButtonTagName="button" style="display:none" Click="{command: RemoveVideo(_root.Videos)}">
+                                <PostBack.Handlers>
+                                    <dot:ConfirmPostBackHandler Message="Opravdu chces smazat video?" />
+                                </PostBack.Handlers>
+                            </dot:Button>
+                        </div>
                     </div>
                 </ItemTemplate>
             </dot:Repeater>
@@ -111,7 +121,8 @@
                                                     Smazat
                                                     <dot:Button ButtonTagName="button" Click="{command: _parent.RemoveCategory(_this)}" style="display:none;" Validation.Enabled="false" />
                                                 </div>
-                                                <dot:TextBox class="form-control txt-delete-cat" Text="{value: _this}" list="categories" Type="Normal" />
+                                                <dot:ComboBox class="form-control txt-delete-cat" DataSource="{value: _parent.DatabaseCategories}"
+                                                              SelectedValue="{value: _this.Name}"/>
                                             </div>
                                         </ItemTemplate>
                                     </div>

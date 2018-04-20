@@ -1,15 +1,15 @@
-﻿//function playVideo(e) {
-//    if (window.innerWidth > 768) {
-//        e.load();
-//        e.play();
-//    }
-//}
+﻿function playVideo(e) {
+    if (window.innerWidth > 768) {
+        e.play();
+    }
+}
 
-//function stopVideo(e) {
-//    if(window.innerWidth > 768) {
-//        e.load();
-//    }
-//}
+function stopVideo(e) {
+    if (window.innerWidth > 768) {
+        e.pause();
+        e.currentTime = 0;
+    }
+}
 
 
 
@@ -22,9 +22,10 @@ $(document).ready(function () {
     });
 
 
-    $(document).on("click", ".source-selector", function (e) {
-        $('#source-selection').collapse("toggle")
-    });
+    //$(document).on("click", ".panel-group", function (e) {
+    //    alert("das");
+    //    $('#collapse1').collapse("toggle")
+    //});
 
     $(document).on("click", ".click", function (e) {
         e.currentTarget.getElementsByTagName("button")[0].click();
@@ -66,9 +67,9 @@ $(document).ready(function () {
 
     });
 
-    $(document).on("click", ".website-collapse", function (e) {
-        $('#collapse1').collapse("hide");
-    });
+    //$(document).on("click", ".websites-collapse", function (e) {
+    //    $('#collapse1').collapse("hide");
+    //});
 
     $(document).on("click", ".move-up-modal", function (e) {
         $("#myModal").scrollTop(100);

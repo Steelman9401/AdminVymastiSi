@@ -142,19 +142,7 @@ footer {
         text-align: center;
     }
 
-    .source-selector {
-        height: 100%;
-        width: 100%;
-        background-color: #00000066;
-        padding-left: 10px;
-        padding-bottom: 15px;
-        padding-right: 10px;
-    }
-
-    #source-selection {
-        background-color: #00000066;
-    }
-
+   
     #myModal .modal-content {
         background-color: #212121;
     }
@@ -185,7 +173,7 @@ footer {
     }
 
     .category-selection {
-        width: 60%;
+        max-width:250px;
         margin-bottom: 20px;
     }
 

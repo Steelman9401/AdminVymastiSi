@@ -73,8 +73,11 @@ namespace AdminVymastiSi.Repositories
                         Title = p.Title,
                         Title_en = p.Title_en,
                         Url = p.Url,
-                        Categories = p.Categories
-                       .Select(a => a.Name)
+                        Categories = p.Categories.Select(x=> new CategoryDTO()
+                        {
+                            Name = x.Name,
+                            Name_en = x.Name_en
+                        })
                     }).FirstOrDefaultAsync();
             }
         }
@@ -107,10 +110,10 @@ namespace AdminVymastiSi.Repositories
             video.HD = vid.HD;
             video.Duration = vid.Duration;
             List<Category> listCat = new List<Category>();
-            foreach (string item in vid.Categories)
+            foreach (CategoryDTO item in vid.Categories)
             {
                 Category cat = new Category();
-                cat.Name = item;
+                cat.Name = item.Name;
                 listCat.Add(cat);
             }
             using (var db = new myDb())
@@ -147,9 +150,9 @@ namespace AdminVymastiSi.Repositories
                 dbVideo.Preview = video.Preview;
                 dbVideo.Url = video.Url;
                 dbVideo.Categories.Clear();
-                foreach (string item in video.Categories)
+                foreach (CategoryDTO item in video.Categories)
                 {
-                    var category = await db.Categories.Where(x => x.Name == item).FirstOrDefaultAsync();
+                    var category = await db.Categories.Where(x => x.Name == item.Name).FirstOrDefaultAsync();
                     dbVideo.Categories.Add(category);
                 }
                 await db.SaveChangesAsync();
@@ -186,6 +189,15 @@ namespace AdminVymastiSi.Repositories
             {
                 return await db.Categories
                     .Select(x => x.Name).ToListAsync();
+            }
+        }
+        public async Task RemoveCategoryAsync(int Id)
+        {
+            using (var db = new myDb())
+            {
+                var category = await db.Categories.FindAsync(Id);
+                db.Categories.Remove(category);
+                await db.SaveChangesAsync();
             }
         }
 

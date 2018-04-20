@@ -39,7 +39,7 @@ namespace AdminVymastiSi.ViewModels.administration
         }
         public void CloseModal()
         {
-            
+
         }
         public async Task AddCategory()
         {

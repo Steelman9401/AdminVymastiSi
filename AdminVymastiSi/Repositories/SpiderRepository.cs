@@ -204,11 +204,14 @@ namespace AdminVymastiSi.Repositories
                         .First()
                         .ChildNodes
                         .Where(x => x.Name == "a")
-                        .Select(p => p.InnerText.Replace(" ", "").Replace("\n", "")).Select(o => o);
+                        .Select(p => p.InnerText.Replace(" ", "").Replace("\n", "")).Select(o=> new CategoryDTO()
+                        {
+                            Name_en = o
+                        });
                 }
                 catch
                 {
-                    List<string> list = new List<string>();
+                    List<CategoryDTO> list = new List<CategoryDTO>();
                     video.Categories = list;
                 }
             }
@@ -229,11 +232,14 @@ namespace AdminVymastiSi.Repositories
                 try
                 {
                     video.Categories = document.DocumentNode.SelectNodes("//div[@class='video-infobox-content']")[4].SelectNodes(".//a")
-                        .Select(x => x.InnerText);
+                        .Select(x => new CategoryDTO()
+                        {
+                            Name_en = x.InnerHtml
+                        });
                 }
                 catch
                 {
-                    List<string> list = new List<string>();
+                    List<CategoryDTO> list = new List<CategoryDTO>();
                     video.Categories = list;
                 }
             }
@@ -255,11 +261,15 @@ namespace AdminVymastiSi.Repositories
                 {
                     video.Categories = document.DocumentNode.SelectSingleNode("//div[@class='categories_list']")
                         .SelectNodes(".//a")
-                        .Select(x => x.GetAttributeValue("title", string.Empty)).ToList();
+                        .Select(x => x.GetAttributeValue("title", string.Empty))
+                        .Select(o=>new CategoryDTO()
+                        {
+                            Name_en = o
+                        });
                 }
                 catch
                 {
-                    List<string> list = new List<string>();
+                    List<CategoryDTO> list = new List<CategoryDTO>();
                     video.Categories = list;
                 }
             }
