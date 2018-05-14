@@ -14,7 +14,6 @@ namespace AdminVymastiSi.DTO
         public int Id { get; set; }
         public string Name { get; set; }
         public string Name_en { get; set; }
-
         public async Task RemoveCategory(GridViewDataSet<CategoryDTO> Categories)
         {
             AdminRepository AdminRep = new AdminRepository();

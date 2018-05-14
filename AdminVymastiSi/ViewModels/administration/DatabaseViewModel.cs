@@ -6,27 +6,29 @@ using System.Threading.Tasks;
 using AdminVymastiSi.DTO;
 using AdminVymastiSi.Repositories;
 using DotVVM.Framework.Controls;
+using DotVVM.Framework.Runtime.Filters;
 using DotVVM.Framework.ViewModel;
 
 namespace AdminVymastiSi.ViewModels.administration
 {
+    [Authorize()]
     public class DatabaseViewModel : MasterPageViewModel
     {
         public AdminRepository AdminRep { get; set; } = new AdminRepository();
         public GridViewDataSet<VideoListAdminDTO> Videos { get; set; } = new GridViewDataSet<VideoListAdminDTO>()
         {
-            PagingOptions = { PageSize = 8 }
+            PagingOptions = { PageSize = 20}
         };
         public VideoAdminDTO Video { get; set; }
         public override Task PreRender()
         {
-            Videos.OnLoadingDataAsync = option => AdminRep.GetAllVideosAdmin(option,CurrentUser);
+            Videos.OnLoadingData = option => AdminRep.GetAllVideos(option,CurrentUser);
             return base.PreRender();
         }
         public async Task EditVideo(VideoListAdminDTO vid)
         {
-            Video = await AdminRep.GetVideoById(vid.Id);
-            Video.DatabaseCategories = await AdminRep.GetCategories();
+            Video = await AdminRep.GetVideoByIdAsync(vid.Id);
+            Video.DatabaseCategories = await AdminRep.GetCategoriesAsync();
             Video.IsEdited = true;
         }
         public async Task UpdateVideo()
@@ -39,7 +41,19 @@ namespace AdminVymastiSi.ViewModels.administration
         }
         public void CloseModal()
         {
-
+            Video.Categories = new List<CategoryDTO>();
+            Video.CategoryAdded = false;
+            Video.ErrorMessage = "";
+            Video.IsCustom = false;
+            Video.IsEdited = false;
+            Video.NewCategory = new CategoryDTO();
+            Video.ShowCategoryOption = false;
+            Video.Success = false;
+            Video.Url = null;
+            Video.AllowMain = true;
+            Video.CheckBoxEnabled = true;
+            Video.LoadError = false;
+            Video.IsEdited = false;
         }
         public async Task AddCategory()
         {
@@ -47,7 +61,7 @@ namespace AdminVymastiSi.ViewModels.administration
             {
                 Video.NewCategory.Name = "";
                 Video.NewCategory.Name_en = "";
-                Video.DatabaseCategories = await AdminRep.GetCategories();
+                Video.DatabaseCategories = await AdminRep.GetCategoriesAsync();
             }
         }
     }

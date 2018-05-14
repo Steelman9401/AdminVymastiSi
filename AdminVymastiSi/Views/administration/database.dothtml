@@ -14,25 +14,25 @@
             <div class="row" style="margin-bottom:20px;">
                 <div class="col-md-4">
                     <p style="font-size:40px;">Vymasti.<span style="color: #66afec;">si</span></p>
-                    <h4>Tvoje videa: </h4>
                 </div>
                 <div class="col-md-4"></div>
                 <div class="col-md-4">
                 </div>
             </div>
+            <h4>Tvá videa: </h4>
             <dot:Repeater DataSource="{value: Videos}" class="row">
                 <ItemTemplate>
                     <div class="col-lg-3 col-md-4" style="margin-top:20px;">
-                        <div class="video click remove-loader-main video">
-                        <dot:Button ButtonTagName="button" Validation.Enabled="false" Click="{command: _root.EditVideo(_this)}" style="display:none" />
-                        <video poster="{value: Img}" preload="none" onmouseover="playVideo(this)" onmouseout="stopVideo(this)">
-                            <source src="{value: Preview}" type="video/mp4">
-                        </video>
-                        <p style="font-weight:bold; margin-bottom:0px;">{{value: Title}}</p>
-                    </div>
+                        <div class="video click remove-loader-main">
+                            <dot:Button ButtonTagName="button" Validation.Enabled="false" Click="{command: _root.EditVideo(_this)}" style="display:none" />
+                            <video poster="{value: Img}" preload="none" loop onmouseover="playVideo(this)" onmouseout="stopVideo(this)">
+                                <source src="{value: Preview}" type="video/mp4">
+                            </video>
+                            <p style="font-weight:bold; margin-bottom:0px;">{{value: Title}}</p>
+                        </div>
                         <div style="float:right;" class="click btn btn-danger">
                             Smazat
-                            <dot:Button ButtonTagName="button" style="display:none" Click="{command: RemoveVideo(_root.Videos)}">
+                            <dot:Button Validation.Enabled="false" ButtonTagName="button" style="display:none" Click="{command: RemoveVideo(_root.Videos)}">
                                 <PostBack.Handlers>
                                     <dot:ConfirmPostBackHandler Message="Opravdu chces smazat video?" />
                                 </PostBack.Handlers>
@@ -41,7 +41,11 @@
                     </div>
                 </ItemTemplate>
             </dot:Repeater>
-            <dot:DataPager DataSet="{value: Videos}" class="pagination" />
+            <div class="row">
+                    <section class="pagination">
+                        <dot:DataPager Validation.Enabled="false" DataSet="{value: Videos}" style="list-style-type:none;" />
+                    </section>
+            </div>
         </div>
     </main>
     <div id="myModal" class="modal fade" role="dialog" style="color:black;">
@@ -86,9 +90,13 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
-                            <p Visible="{value:Success}" style="font-size:20px; color:#1a8dd9">Video bylo úspěšně upraveno!</p>
-                            <dot:ValidationSummary IncludeErrorsFromChildren="true" style="color:red; font-size:20px;" />
+                        <div class="col-md-6" style="margin-bottom:20px;">
+                            <div Visible="{value: Success}" class="alert alert-success" style="border:none; padding:0 0 0 0">
+                                <p style="color:#3c763d; font-weight:bold;text-align:center; font-size:15px; padding-top:10px; padding-bottom:10px;">Video bylo úspěšně upraveno!</p>
+                            </div>
+                            <div class="alert alert-danger" style="border:none; padding:0 0 0 0">
+                                <dot:ValidationSummary class="validation" IncludeErrorsFromChildren="true" style="color:#a94442; font-size:15px; font-weight:bold" />
+                            </div>
                             <form>
                                 <h3 style="color:white;">Úprava videa</h3>
                                 <hr style="margin-top:0px; border-top: 2px solid #eeeeee1c  !important;" />
@@ -122,11 +130,13 @@
                                                     <dot:Button ButtonTagName="button" Click="{command: _parent.RemoveCategory(_this)}" style="display:none;" Validation.Enabled="false" />
                                                 </div>
                                                 <dot:ComboBox class="form-control txt-delete-cat" DataSource="{value: _parent.DatabaseCategories}"
-                                                              SelectedValue="{value: _this.Name}"/>
+                                                              SelectedValue="{value: _this.Name}" />
                                             </div>
                                         </ItemTemplate>
                                     </div>
                                 </dot:Repeater>
+                                <dot:CheckBox style="margin-top:10px;" class="checkbox" Text=" Zobrazit video na hlavní stránce" Checked="{value: AllowMain}" />
+                                <br />
                                 <div class="modalButtons">
                                     <div class="btn btn-info click remove-loader-modal remove-loader-main" style="float:left;">
                                         Přidat kategorii
@@ -141,8 +151,12 @@
                             </form>
                         </div>
                         <div ID="category-form" class="col-md-6">
-                            <p Visible="{value: CategoryAdded}" style="font-size:20px; color: #1a8dd9;">Kategorie byla úspěšně přidána!</p>
-                            <p Visible="{value: ErrorMessage != ''}" style="font-size:20px; color:red;">{{value: ErrorMessage}}</p>
+                            <div class="alert alert-success" Visible="{value: CategoryAdded}" style="padding:0 0 0 0">
+                                <p style="font-size:15px; color:#3c763d; text-align:center; font-weight:bold; padding-top:10px;">Kategorie byla úspěšně přidána!</p>
+                            </div>
+                            <div Visible="{value: ErrorMessage != ''}" class="alert alert-danger" style="padding:0 0 0 0">
+                                <p style="font-size:15px; color:#a94442; text-align:center; font-weight:bold; padding-top:10px;">{{value: ErrorMessage}}</p>
+                            </div>
                             <form>
                                 <h3 style="color:white;">Přidání kategorie do databáze</h3>
                                 <hr style="margin-top:0px; border-top: 2px solid #eeeeee1c;" />

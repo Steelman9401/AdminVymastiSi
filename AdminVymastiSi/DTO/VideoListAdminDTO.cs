@@ -22,8 +22,9 @@ namespace AdminVymastiSi.DTO
         public async Task RemoveVideo(GridViewDataSet<VideoListAdminDTO> Videos)
         {
             AdminRepository AdminRep = new AdminRepository();
-            Videos.RequestRefresh(forceRefresh: true);
-            await AdminRep.RemoveVideo(this.Id);
+            var deletedVideo = Videos.Items.Where(x => x.Id == Id).First();
+            Videos.Items.Remove(deletedVideo);
+            await AdminRep.RemoveVideoAsync(this.Id);
         }
     }
 }

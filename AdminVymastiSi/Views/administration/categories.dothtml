@@ -66,6 +66,11 @@
                 </div>
                 <div class="col-md-3"></div>
             </div>
+            <div class="row">
+                <section class="pagination">
+                    <dot:DataPager Validation.Enabled="false" DataSet="{value: Categories}" style="list-style-type:none;" />
+                </section>
+            </div>
         </div>
     </main>
 

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,12 +15,13 @@ using DotVVM.Framework.ViewModel;
 using HtmlAgilityPack;
 
 namespace AdminVymastiSi.ViewModels.administration
-{   
+{
+    [Authorize()]
     public class SpiderViewModel : MasterPageViewModel
     {
         public List<VideoListAdminDTO> Videos { get; set; } = new List<VideoListAdminDTO>();
         public SpiderRepository SpiderRep { get; set; } = new SpiderRepository();
-        public int SwitchWebsite { get; set; } = 0;
+        public int SwitchWebsite { get; set; } = 3;
         public string ImageName { get; set; }
         public VideoAdminDTO Video { get; set; } = new VideoAdminDTO();
         public AdminRepository AdminRep { get; set; } = new AdminRepository();
@@ -36,6 +38,10 @@ namespace AdminVymastiSi.ViewModels.administration
             new WebCategory() { Name = "Gay", Url = "gay"},
             new WebCategory() { Name = "Brunetky", Url = "brunette"},
             new WebCategory() { Name = "Lesbièky", Url = "lesbian"},
+            new WebCategory() { Name = "Teenky", Url = "teen"},
+            new WebCategory() { Name = "Èešky", Url = "czech"},
+            new WebCategory() { Name = "BDSM", Url = "bdsm"},
+            new WebCategory() { Name = "Hentai", Url = "hentai"},
 
         };
         public string SelectedWebCategory { get; set; } = "";
@@ -44,7 +50,7 @@ namespace AdminVymastiSi.ViewModels.administration
         {
             if (!Context.IsPostBack)
             {
-                SpiderRep.GetRedTubeVideos(Videos, string.Empty);
+                SpiderRep.GetPornHubVideos(Videos, string.Empty);
             }
             if (SwitchWebsite == 0)
                 ImageName = "../../Content/redtube.png";
@@ -52,6 +58,8 @@ namespace AdminVymastiSi.ViewModels.administration
                 ImageName = "../../Content/xhamster.png";
             else if (SwitchWebsite == 2)
                 ImageName = "../../Content/drtuber.png";
+            else if (SwitchWebsite == 3)
+                ImageName = "../../Content/pornhub.png";
 
             await base.PreRender();
         }
@@ -66,9 +74,14 @@ namespace AdminVymastiSi.ViewModels.administration
             Video.Title_en = vid.Title_en;
             Video.Url = vid.Url;
             Video.Id = vid.Id;
+            if(SelectedWebCategory=="gay")
+            {
+                Video.AllowMain = false;
+                Video.CheckBoxEnabled = false;
+            }
             if (Video.DatabaseCategories.Count() == 0)
             {
-                Video.DatabaseCategories = await AdminRep.GetCategories();
+                Video.DatabaseCategories = await AdminRep.GetCategoriesAsync();
             }
             if (SwitchWebsite == 0)
                 SpiderRep.GetCategoriesRedTube(Video);
@@ -76,6 +89,8 @@ namespace AdminVymastiSi.ViewModels.administration
                 SpiderRep.GetCategoriesXhamster(Video);
             else if (SwitchWebsite == 2)
                 SpiderRep.GetCategoriesDrTuber(Video);
+            else if (SwitchWebsite == 3)
+                SpiderRep.GetCategoriesPornHub(Video);
         }
         public void ChangeCategoryList()
         {
@@ -86,12 +101,20 @@ namespace AdminVymastiSi.ViewModels.administration
                 SpiderRep.GetRedTubeVideos(Videos, SelectedWebCategory);
             else if (SwitchWebsite == 2)
                 SpiderRep.GetDrTuberVideos(Videos, SelectedWebCategory);
+            else if (SwitchWebsite == 3)
+                SpiderRep.GetPornHubVideos(Videos, SelectedWebCategory);
         }
         public void SwitchToRedTube()
         {
             SwitchWebsite = 0;
             Videos = new List<VideoListAdminDTO>();
             SpiderRep.GetRedTubeVideos(Videos, SelectedWebCategory);
+        }
+        public void SwitchToPornHub()
+        {
+            SwitchWebsite = 3;
+            Videos = new List<VideoListAdminDTO>();
+            SpiderRep.GetPornHubVideos(Videos, SelectedWebCategory);
         }
         public async Task AddVideo()
         {
@@ -104,12 +127,15 @@ namespace AdminVymastiSi.ViewModels.administration
             {
                 Video.NewCategory.Name = "";
                 Video.NewCategory.Name_en = "";
-                Video.DatabaseCategories = await AdminRep.GetCategories();
+                Video.DatabaseCategories = await AdminRep.GetCategoriesAsync();
             }
         }
-        public void CreateCustomVideo()
+        public async Task CreateCustomVideo()
         {
-            Video = new VideoAdminDTO();
+            if (Video.DatabaseCategories.Count() == 0)
+            {
+                Video.DatabaseCategories = await AdminRep.GetCategoriesAsync();
+            }
             Video.IsCustom = true;
             List<CategoryDTO> list = new List<CategoryDTO>();
             for (int i = 0; i < 3; i++)
@@ -142,10 +168,9 @@ namespace AdminVymastiSi.ViewModels.administration
             Video.ShowCategoryOption = false;
             Video.Success = false;
             Video.Url = null;
-        }
-        public void DoStuff()
-        {
-
+            Video.AllowMain = true;
+            Video.CheckBoxEnabled = true;
+            Video.LoadError = false;
         }
     }
 }

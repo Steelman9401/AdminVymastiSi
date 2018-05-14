@@ -18,9 +18,12 @@ namespace AdminVymastiSi.DTO
         public string ErrorMessage { get; set; } = "";
         public IEnumerable<string> DatabaseCategories { get; set; } = new List<string>();
         public bool Success { get; set; }
+        public bool AllowMain { get; set; } = true;
         public bool ShowCategoryOption { get; set; }
+        public bool CheckBoxEnabled { get; set; } = true;
         public CategoryDTO NewCategory { get; set; } = new CategoryDTO();
         public string Url { get; set; }
+        public bool LoadError { get; set; }
         public bool IsCustom { get; set; }
         public bool IsEdited { get; set; }
         public string Duration { get; set; }
@@ -55,7 +58,7 @@ namespace AdminVymastiSi.DTO
         public async Task AddVideo(string username)
         {
             AdminRepository AdminRep = new AdminRepository();
-            await AdminRep.AddPorn(this, username);
+            await AdminRep.AddVideoAsync(this, username);
             Success = true;
         }
         public async Task<bool> AddCategoryToDatabase(string username)
@@ -63,7 +66,7 @@ namespace AdminVymastiSi.DTO
             if (ValidateCategory())
             {
                 AdminRepository AdminRep = new AdminRepository();
-                await AdminRep.AddCategory(NewCategory, username);
+                await AdminRep.AddCategoryAsync(NewCategory, username);
                 CategoryAdded = true;
                 ErrorMessage = "";
                 return true;
@@ -75,7 +78,7 @@ namespace AdminVymastiSi.DTO
         public async Task UpdateVideo()
         {
             AdminRepository AdminRep = new AdminRepository();
-            await AdminRep.UpdateVideo(this);
+            await AdminRep.UpdateVideoAsync(this);
             Success = true;
         }
 
@@ -110,8 +113,8 @@ namespace AdminVymastiSi.DTO
         }
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            AdminRepository AdminRep = new AdminRepository();
             List<ValidationResult> errormsg = new List<ValidationResult>();
+            AdminRepository AdminRep = new AdminRepository();
             if (string.IsNullOrEmpty(Title))
             {
                 Success = false;
@@ -127,27 +130,15 @@ namespace AdminVymastiSi.DTO
                 Success = false;
                 errormsg.Add(new ValidationResult("Je třeba mít zadané alespoň 3 kategorie.", new[] { nameof(Categories) }));
             }
-            if (Categories.GroupBy(x => x)
+            if (Categories.GroupBy(x => x.Name)
                         .Where(group => group.Count() > 1).Count() != 0)
             {
                 Success = false;
                 errormsg.Add(new ValidationResult("Kategorie se nesmí jmenovat stejně.", new[] { nameof(Categories) }));
             }
-            var difference = CheckCategories();
-            if (difference.Count()!=0)
+            if(Categories.Where(x=>x.Name == null).Count()!=0)
             {
-                Success = false;
-                string text = "";
-                if(difference.Count()>1)
-                {
-                    text = " nejsou v databázi.";
-                }
-                else
-                {
-                    text = " není v databázi.";
-                }
-                string categories = string.Join(", ", difference);
-                errormsg.Add(new ValidationResult("Kategorie " + categories + text, new[] { nameof(Categories) }));
+                errormsg.Add(new ValidationResult("Název kategorie nesmí být prázdný.", new[] { nameof(Title) }));
             }
             if (!IsEdited && AdminRep.VideoExists(Url))
             {

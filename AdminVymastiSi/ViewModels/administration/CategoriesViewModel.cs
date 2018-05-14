@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 using AdminVymastiSi.DTO;
 using AdminVymastiSi.Repositories;
 using DotVVM.Framework.Controls;
+using DotVVM.Framework.Runtime.Filters;
 using DotVVM.Framework.ViewModel;
 
 namespace AdminVymastiSi.ViewModels.administration
 {
+    [Authorize()]
     public class CategoriesViewModel : MasterPageViewModel
     {
         public GridViewDataSet<CategoryDTO> Categories { get; set; } = new GridViewDataSet<CategoryDTO>()
@@ -37,7 +39,7 @@ namespace AdminVymastiSi.ViewModels.administration
             AdminRepository AdminRep = new AdminRepository();
             if (Validate(category))
             {
-                await AdminRep.UpdateCategory(category);
+                await AdminRep.UpdateCategoryAsync(category);
             }
             Categories.RowEditOptions.EditRowId = null;
 

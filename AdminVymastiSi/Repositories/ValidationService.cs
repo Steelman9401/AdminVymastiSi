@@ -17,8 +17,7 @@ namespace AdminVymastiSi.Repositories
         {
             using (var db = new myDb())
             {
-                var urls = db.Videos.OrderByDescending(x => x.Id).Select(p => p.Url).Take(10).ToList();
-                if (urls.Contains(url))
+                if (db.Videos.Where(x => x.Url == url).Count()!= 0)
                     return true;
                 else
                     return false;

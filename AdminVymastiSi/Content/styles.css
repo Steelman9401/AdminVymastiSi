@@ -24,7 +24,7 @@ header {
     background-color: black !important;
     border-bottom: 3px solid #ffffff4a !important;
 }
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 1000px) {
     video:hover {
         -webkit-box-shadow: -1px -1px 19px 2px rgba(26,141,217,1);
         -moz-box-shadow: -1px -1px 19px 2px rgba(26,141,217,1);
@@ -52,7 +52,7 @@ header {
         cursor: pointer;
     }
 
-    @media only screen and (min-width: 768px) {
+    @media only screen and (min-width: 1000px) {
         .video:hover {
             transform: scale(1.2);
         }
@@ -60,6 +60,7 @@ header {
 
     main {
         margin-top: 100px;
+        margin-bottom:50px;
     }
 
     p {
@@ -88,7 +89,15 @@ header {
     }
 
     .nav-up {
-    top: -60px;
+    top: -300px;
+    }
+
+    .validation li:first-of-type
+    {
+        padding-top:10px;
+    }
+    .validation li:last-of-type {
+    padding-bottom: 10px;
     }
 
     .arrow-down {
@@ -131,6 +140,14 @@ footer {
     color: #fff;
     height: auto;
     padding: 12px 0;
+    position:fixed;
+    bottom:0
+}
+@media only screen and (max-width: 768px) {
+    footer {
+        position:unset;
+        bottom:unset;
+    }
 }
 .loader-modal-close {
     float: right;
@@ -426,5 +443,44 @@ footer {
     }
 }
 
+.pagination {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: auto;
+    width: 100%;
+    padding: 12px 0px;
+}
 
+    .pagination ul {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
 
+        .pagination ul li {
+            font-size: 13px;
+            cursor: pointer;
+            background-color: #484848;
+            color: #fff;
+            text-align: center;
+            width: 51px;
+            padding: 8px 0px;
+            font-weight: 600;
+            margin-right: 8px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+            .pagination ul li:hover {
+                background-color: #005489;
+                color: #fff
+            }
+
+            .pagination ul li a {
+                text-decoration: none;
+                color: white;
+                pointer-events: none;
+                display: inline-block
+            }
