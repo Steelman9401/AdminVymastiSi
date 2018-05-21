@@ -125,7 +125,7 @@ namespace AdminVymastiSi.DTO
                 Success = false;
                 errormsg.Add(new ValidationResult("Je třeba zadat anglický název.", new[] { nameof(Title_en) }));
             }
-            if (Categories.ToList().Count < 3)
+            if (Categories.ToList().Count < 3 && !AllowLessCategories())
             {
                 Success = false;
                 errormsg.Add(new ValidationResult("Je třeba mít zadané alespoň 3 kategorie.", new[] { nameof(Categories) }));
@@ -146,6 +146,12 @@ namespace AdminVymastiSi.DTO
                 errormsg.Add(new ValidationResult("Video již existuje.", new[] { nameof(Categories) }));
             }
             return errormsg;
+        }
+        private bool AllowLessCategories()
+        {
+            if (Categories.Any(x => x.Name == "Gay" || x.Name == "Hentai"))
+                return true;
+            return false;
         }
     }
 }

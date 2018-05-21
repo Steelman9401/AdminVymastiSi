@@ -61,7 +61,7 @@
                             <div class="col-lg-3 col-md-4 click remove-loader-main video" style="margin-top:20px;">
                                 <dot:Button ButtonTagName="button" Validation.Enabled="false" Click="{command: _root.OpenModal(_this)}" style="display:none" />
                                 
-                                <video poster="{value: Img}" preload="none" loop onmouseover="playVideo(this)" onmouseout="stopVideo(this)">
+                                <video Visible="{value: _parent.SelectedWebCategory!='gay'}" poster="{value: Img}" preload="none" loop onmouseover="playVideo(this)" onmouseout="stopVideo(this)">
                                     <source src="{value: Preview}" type="video/mp4">
                                 </video>
                                 <p style="font-weight:bold;">{{value: Title_en}}</p>
@@ -108,7 +108,7 @@
                         <div class="modal-body">
                             <div class="row" Visible="{value: !IsCustom}">
                                 <div class="col-md-12">
-                                    <iframe ID="adminFrame" allowfullscreen src="{value: Url}"></iframe>
+                                    <iframe Visible="{value: _parent.SelectedWebCategory!='gay'}" ID="adminFrame" allowfullscreen src="{value: Url}"></iframe>
                                 </div>
                             </div>
                             <div class="row">
